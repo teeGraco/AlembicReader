@@ -65,7 +65,6 @@ class Octree():
                 by = (self._bnds_volume[4] + self._bnds_volume[1]) / 2
                 bz = (self._bnds_volume[5] + self._bnds_volume[2]) / 2
                 bit = self.get_morton_order((x,y,z),(bx,by,bz))
-                print (bin(bit))
                 if bit in self._tree:
                     self._tree[bit].append((m,n))
                 else:

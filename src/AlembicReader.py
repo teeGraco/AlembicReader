@@ -36,17 +36,17 @@ class AlembicReader():
         errors = []
         with h5py.File(self.input_dir,'r') as f:
             try:
-                self._child_bnds = f[f'ABC/.prop/.childBnds.smpi/{self.time_step:04}'].value   
+                self._child_bnds = dict(f['ABC/.prop/.childBnds.smpi'].attrs.items())
             except KeyError as e:
                 errors.append(e)
             if errors == []:
-                return self._child_bnds, "ok"
+                return self._child_bnds[f'{self.time_step:04}'], "ok"
             else:
-                return None, errors      
+                return [], errors      
 
 def main():
     ar = AlembicReader('../data/sample_hdf5.abc',1)
-    print(ar.alembic_reader())
+    print(ar.get_bounding_volume())
 
 if __name__ == "__main__":
     main()
