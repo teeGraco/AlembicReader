@@ -31,6 +31,18 @@ class AlembicReader():
                 else:
                     key.append(int(k.strip('curve')))
         return min(key), max(key)
+    
+    def get_bounding_volume(self):
+        errors = []
+        with h5py.File(self.input_dir,'r') as f:
+            try:
+                self._child_bnds = f[f'ABC/.prop/.childBnds.smpi/{self.time_step:04}'].value   
+            except KeyError as e:
+                errors.append(e)
+            if errors == []:
+                return self._child_bnds, "ok"
+            else:
+                return None, errors      
 
 def main():
     ar = AlembicReader('../data/sample_hdf5.abc',1)
