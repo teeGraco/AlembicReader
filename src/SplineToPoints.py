@@ -19,7 +19,11 @@ class SplineToPoints():
     def spline_to_points(self):
         for arr in self.points_positions:
             point = np.reshape(arr,(3,10),order='F')
-            tck,u = splprep(point,k=3)
+            okay = np.where(np.abs(np.diff(point[0])) + np.abs(np.diff(point[1])) + np.abs(np.diff(point[2])) > 0)
+            pointf = [np.r_[point[0][okay], point[0][-1]],np.r_[point[1][okay], point[1][-1]],np.r_[point[2][okay], point[2][-1]]]
+            # 同じ制御点がある場合は情報を排除せねばならない．
+            print(pointf)
+            tck,u = splprep(pointf,k=3,quiet=1)
             params = np.linspace(u[0], u[-1], num=self.points, endpoint=True)
             # 出力は，values[0] -> x, values[1] -> y, values[2] -> zが格納されている．
             values = splev(params, tck)
@@ -40,8 +44,8 @@ class SplineToPoints():
     
 def main():
     arr = []
-    with h5py.File('../data/sample_hdf5.abc','r') as f:
-        arr.append(f['ABC/hairSystem1OutputCurves/curve270/curveShape270/.prop/.geom/P.smpi/0030'].value)
+    with h5py.File('../data/30000abc.abc','r') as f:
+        arr.append(f['ABC/hairSystem1OutputCurves/curve32333/curveShape32333/.prop/.geom/P.smpi/0030'].value)
     sp = SplineToPoints(arr)
     sp.spline_to_points()
     sp.draw()

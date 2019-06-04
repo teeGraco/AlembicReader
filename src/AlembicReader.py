@@ -45,8 +45,8 @@ class AlembicReader():
                 return [], errors      
 
 def main():
-    ar = AlembicReader('../data/sample_hdf5.abc',1)
-    print(ar.get_bounding_volume())
+    ar = AlembicReader('../data/30000abc.abc',1)
+    print(ar.alembic_reader())
 
 if __name__ == "__main__":
     main()

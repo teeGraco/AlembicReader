@@ -13,8 +13,8 @@ def main():
     c, 八分木に格納
     d, それぞれの空間に含まれる点間の距離を求める．
     '''
-    hdfpath = '../data/sample_hdf5.abc'
-    output = "../output/sample_hdf5.csv"
+    hdfpath = '../data/30000abc.abc'
+    output = "../output/30000abc.csv"
     with open(output, 'w') as f:
         writer = csv.writer(f)
         writer.writerow(['timestep','collision'])
